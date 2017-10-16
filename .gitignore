@@ -18,7 +18,8 @@ ExportedObj/
 *.booproj
 *.svd
 /.vs/
-
+manifest.json
+manifest.json.meta
 
 
 # Unity3D generated meta files

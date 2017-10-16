@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class PlayerShipController : MonoBehaviour {
 
+	public	float	Thrust = 1.0f;
+	public	float	RotationSpeed = 360.0f;
 
-
+	//Initial velocity
+	Vector3	mVelocity=Vector3.zero;
 
 	// Use this for initialization
 	void Start () {
@@ -70,29 +73,37 @@ public class PlayerShipController : MonoBehaviour {
     //Update GO position based on player input
     void UpdateMovement()
     {
-        if (Input.GetKey(KeyCode.RightArrow))       //Is key pressed
+		float	tThrust=0.0f;
+
+        if (Input.GetKey(KeyCode.RightArrow))       //If rotate key is pressed, rotate ship
         {
-            transform.position += Vector3.right * Speed * Time.deltaTime;   //Move to new location
+			transform.Rotate (0, 0, -RotationSpeed * Time.deltaTime);  //Rotate around Z axis, to make ship rotate
         }
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.position += Vector3.left * Speed * Time.deltaTime;
-        }
-
-        if (Input.GetKey(KeyCode.UpArrow))
-        {
-            transform.position += Vector3.up * Speed * Time.deltaTime;
+			transform.Rotate (0, 0, RotationSpeed * Time.deltaTime);
         }
 
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            transform.position += Vector3.down * Speed * Time.deltaTime;
+			tThrust = Thrust;
         }
+		//Current Acceleration
+		Vector3 tAcceleration=transform.rotation*Vector3.up*tThrust;
+
+		mVelocity += tAcceleration;		//v=u+a (as time take care of later)
+		float vSpeed=mVelocity.magnitude;
+		if (Mathf.Abs (vSpeed) > 10.0f) 
+		{
+			mVelocity = mVelocity.normalized * 10.0f;		//clamp speed at 10, normalised makes a vector of unit length
+		}
+		transform.position += 0.5f*mVelocity*Time.deltaTime;	//NewPos=OldPos+0.5*v
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update () 
+	{
         UpdateMovement();       //Allows Testing of Movement
         WrapPosition();         //Wrap world
 	}
