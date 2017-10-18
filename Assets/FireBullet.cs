@@ -29,6 +29,7 @@ public class FireBullet : MonoBehaviour {
             {
                 Bullet tBullet = Instantiate(BulletPrefab);
                 Vector2 tFireDirection = Utilities.DirectionOfMotion2D(mRB.rotation);
+				tFireDirection += mRB.velocity;
                 tBullet.Fire(Gun.transform.position, tFireDirection);
                 mCoolDown = FirePerSec;       //Fire rate
             }
