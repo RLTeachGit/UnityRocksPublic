@@ -48,4 +48,10 @@ static  public class Utilities {
         return new Vector2(-Mathf.Sin(vAngle * Mathf.Deg2Rad),      //X
                             Mathf.Cos(vAngle * Mathf.Deg2Rad));     //Y
     }
+
+	public	static	Vector2	RandomDirection {		//Make random direction Unit Vector
+		get {
+			return	Quaternion.Euler (0, 0, Random.Range (0, 360))* Vector2.up;
+		}
+	}
 }

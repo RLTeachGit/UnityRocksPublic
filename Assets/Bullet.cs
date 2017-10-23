@@ -4,29 +4,29 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]     //Makes sure Unity addss this component
 
-public class Bullet : MonoBehaviour {
+public class Bullet : Entity {
 
-    public float LifeSpan   =   10.0f;
+    public float LifeSpan   =   1.0f;
 
-    Rigidbody2D mRB;        //Keep a copy of this RigidBody2D, for fast access
+	private Vector2	mPosition;
+	private	Vector2 mVelocity;
 
-    // Use this for initialization
-    void Awake () { //Awake only called if object is active
-        mRB = GetComponent<Rigidbody2D>();        
-        gameObject.SetActive(false);    //Turn off till it fires
+	protected override void ObjectHit(Entity vOtherEntity) {		//Bullet Hit by bullet do nothing
 	}
 
-    public  void    Fire(Vector2 vPosition, Vector2 vVelocity)
-    {
-        mRB.gameObject.SetActive(true);    //Turn on now 
-        transform.position = vPosition;       //Set Start position, yusing tranform as its before force applied
-                                              //Makes sure starting postion is set before its drawn
-        mRB.AddForce(vVelocity, ForceMode2D.Impulse); //Apply force in one go
-        Destroy(gameObject, LifeSpan);      //Bullets time out
-    }
 
-    private void LateUpdate()
+// Use this for initialization
+    protected override void Start () { //Start only called if object is active
+		base.Start();
+		transform.position = mPosition;       //Set Start position, yusing tranform as its before force applied
+		//Makes sure starting postion is set before its drawn
+		mRB.AddForce(mVelocity, ForceMode2D.Impulse); //Apply force in one go
+		Destroy(gameObject, LifeSpan);      //Bullets time out
+	}
+
+    public  void    SetDirection(Vector2 vPosition, Vector2 vVelocity)
     {
-        mRB.position = Utilities.WrapPosition(Camera.main, mRB.position);   //Warp world
+		mPosition = vPosition;		//Store fire data
+		mVelocity = vVelocity;
     }
 }
