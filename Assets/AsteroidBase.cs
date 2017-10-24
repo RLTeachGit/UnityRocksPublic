@@ -6,15 +6,19 @@ using UnityEngine;
 //Abstract Base class for all asteroids
 abstract public class AsteroidBase : Entity {
 
-	public	enum AsteroidType  {	//Makes up consecutive integers from starting at 0, needs cast to (int) to work as index
+    //Makes up consecutive integers from starting at 0
+    //needs cast to (int) to work as index
+    public enum AsteroidType  {	
 			Big=0		//0
 			,Medium		//1
 			,Small		//2
 	}
 
-	public	static	int	AsteroidCount = 0;		//Count of all the asteroids regardless of which type
+    //Count of all the asteroids regardless of which type
+    public static	int	AsteroidCount = 0;
 
-	public	abstract int Score { get;}		//Abstract means all Asteroids must implement this getter for score
+    //Abstract means all Asteroids must implement this getter for score
+    public abstract int Score { get;}		
 
 	// Use this for Basic Asteroid initialization, by overriding base Entity class
 	protected override void Start () {
@@ -25,9 +29,10 @@ abstract public class AsteroidBase : Entity {
 		AsteroidCount++;	//When asteroid created, increase count
 	}
 
-    protected override void ObjectHit(Entity vOtherEntity)	//Override Entity Object hit, NB Asteroids only care about being hit by a bullet
+    //Override Entity Object hit, NB Asteroids only care about being hit by a bullet
+    protected override void ObjectHit(Entity vOtherEntity)
     {
-		if (vOtherEntity.GetType () == typeof(Bullet)) {		//Has the asteroid hit a bullet
+		if (vOtherEntity.GetType () == typeof(Bullet)) {    //Has the asteroid hit a bullet
 			HitByBullet ((Bullet)vOtherEntity);
 		} else if (vOtherEntity.GetType () == typeof(PlayerShip)) {		//Has Asteroid hit player
 			HitByPlayer ((PlayerShip)vOtherEntity);
@@ -46,10 +51,10 @@ abstract public class AsteroidBase : Entity {
 		Debug.Log ("Player would have died");		//Cheat mode
 	}
 
-
-	static	public	void	SpawnNew(Vector2 vPositon,int vCount, AsteroidType vType) {
+    //Set up new set of new Asteroids
+    static public	void	SpawnNew(Vector2 vPositon,int vCount, AsteroidType vType) {
 		for (int i = 0; i < vCount; i++) {
-			Instantiate (GM.sGM.Asteroids [(int)vType], vPositon, Quaternion.identity);		//Set up new set of new Asteroids
+			Instantiate (GM.sGM.Asteroids [(int)vType], vPositon, Quaternion.identity);		
 		}
 	}
 

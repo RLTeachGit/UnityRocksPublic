@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class AsteroidBig : AsteroidBase {
-
-	public	override int Score { 		//Override with score for this Asteroid
+    
+    //Override with score for this Asteroid
+    public override int Score { 		
 		get {
 			return	10;
 		}
@@ -15,7 +16,8 @@ public class AsteroidBig : AsteroidBase {
 		SpawnNew (transform.position, 2, (AsteroidType.Medium));
 	}
 
-	protected override void HitByBullet(Bullet vBullet) {		//Big asteroid uses default behaviour, but modifies it to make 2 medium asteroids
+    //Big asteroid uses default behaviour, but modifies it to make 2 medium asteroids
+    protected override void HitByBullet(Bullet vBullet) {
 		base.HitByBullet (vBullet);		//Default destroy for bullet and old Asteroid
 		SpawnNew (transform.position, 2, AsteroidType.Medium);
 	}

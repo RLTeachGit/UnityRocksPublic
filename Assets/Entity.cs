@@ -8,28 +8,31 @@ using UnityEngine;
 //A base class for a simple generic entity, which will be inherited by other objects
 public abstract class Entity : MonoBehaviour {		//Making it abstract means you need to inherit from it to instanciate it
 
-
-    protected Rigidbody2D mRB;		//Assume all inherited Objects have RB
+    protected Rigidbody2D mRB; //Assume all inherited Objects have RB
 
 	// Use this for base class Init
 	protected  virtual void Start () {
-        mRB = GetComponent<Rigidbody2D>();		//Take care of linking in RB for all derived objects
+        //Take care of linking in RB for all derived objects
+        mRB = GetComponent<Rigidbody2D>();		
 	}
-		
 
 	//Base class Fixed Update, does wrap
 	protected virtual void LateUpdate () {
 		mRB.position = Utilities.WrapPosition(Camera.main, mRB.position);		//Do default screen wrap
 	}
 
-
-    private void OnTriggerEnter2D(Collider2D collision)		//Grab collisions and pass them on in friendly way
+    //Grab collisions and pass them on in friendly way
+    private void OnTriggerEnter2D(Collider2D collision)		
     {
-        Entity tEnity = collision.gameObject.GetComponent<Entity>();
-        ObjectHit(tEnity);
+        //Get Entity object attached to object we hit, we assumes they all have one
+        //which will in practice be a derived class as Entity is abstract
+        Entity tEntity = collision.gameObject.GetComponent<Entity>();
+
+        ObjectHit(tEntity);      //Call overrideable function to deal with collision
     }
 
-	protected	virtual  void  ObjectHit (Entity vOtherEntity) {	//Can override in derived classes, default ignore collision & do nothing
+    //Can override in derived classes, default ignore collision & do nothing
+    protected virtual  void  ObjectHit (Entity vOtherEntity) {	
 	} 
 
 	public	virtual	void	Kill() {		//Default kill is to Destroy
