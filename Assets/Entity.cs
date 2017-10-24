@@ -22,11 +22,11 @@ public abstract class Entity : MonoBehaviour {		//Making it abstract means you n
 	}
 
     //Grab collisions and pass them on in friendly way
-    private void OnTriggerEnter2D(Collider2D collision)		
+    private void OnTriggerEnter2D(Collider2D vCollision)		
     {
         //Get Entity object attached to object we hit, we assumes they all have one
         //which will in practice be a derived class as Entity is abstract
-        Entity tEntity = collision.gameObject.GetComponent<Entity>();
+        Entity tEntity = vCollision.gameObject.GetComponent<Entity>();
 
         ObjectHit(tEntity);      //Call overrideable function to deal with collision
     }
