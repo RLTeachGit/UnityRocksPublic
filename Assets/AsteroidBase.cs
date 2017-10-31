@@ -27,6 +27,7 @@ abstract public class AsteroidBase : Entity {
 		tDirection *= Random.Range (.5f, 5f);
 		mRB.AddForce (tDirection, ForceMode2D.Impulse);		//Make it move by applying force impulse
 		AsteroidCount++;	//When asteroid created, increase count
+		GM.sGM.mUI.UpdateAsteroidCount (AsteroidCount);		//Show new count
 	}
 
     //Override Entity Object hit, NB Asteroids only care about being hit by a bullet
@@ -60,5 +61,6 @@ abstract public class AsteroidBase : Entity {
 
 	void OnDestroy() {		//When asteroid destroyed, reduce count
 		AsteroidCount--;
+		GM.sGM.mUI.UpdateAsteroidCount (AsteroidCount);		//Show new count
 	}
 }

@@ -13,7 +13,9 @@ public class GM : MonoBehaviour {
 
 	public	static	GM	sGM;		//Creates a singleton, allowing static access to data and helper code
 
-	private	int		Score = 0;
+	private	int		mScore = 0;		//Global score
+
+	public	UI		mUI;		//Link to UI
 
 	void Awake () {		//Runs before Start
 		if (sGM == null) {
@@ -41,19 +43,18 @@ public class GM : MonoBehaviour {
 		}
 	}
 
-	void	Start() {	//No used as Update checks if restart is needed
-	}
 
 	void	NewGame() {
 		AsteroidBase.SpawnNew (RandomPosition, 5, AsteroidBase.AsteroidType.Big);		//Call static spawn function
 		GameOver = false;
-		Score = 0;
+		mScore = 0;			//Reset score
+		mUI.UpdateScore (mScore);		//Show new score
 	}
-
+		
 
 	public	void	AddScore(int vScore) {			//Add to score
-		Score += vScore;
-		Debug.LogFormat ("Score {0:d}", Score);
+		mScore += vScore;		//Add to score
+		mUI.UpdateScore (mScore);		//Show new score
 	}
 	
 	void Update () {
@@ -64,6 +65,7 @@ public class GM : MonoBehaviour {
 		if (!GameOver && AsteroidBase.AsteroidCount == 0) {			//If in game, reaching 0 asteroids tiggers endgame
 			GameOver = true;
 			Debug.Log ("Game Over");
+			mUI.UpdateScore (mScore);		//Show current score
 			Invoke ("NewGame", 2.0f);		//Start new game in 2 seconds
 		}
 	}
