@@ -54,4 +54,34 @@ static  public class Utilities {
 			return	Quaternion.Euler (0, 0, Random.Range (0, 360))* Vector2.up;
 		}
 	}
+
+
+    //Very slow
+    static  public T TimedFindComponentByType<T>() where T : Component
+    {
+        System.Diagnostics.Stopwatch tSW = new System.Diagnostics.Stopwatch();  //Time how long it takes to find Item
+        T tClass = default(T);
+        tSW.Start();
+        tClass = GameObject.FindObjectOfType<T>();       //Search for GM by type
+        tSW.Stop();
+        Debug.LogFormat("{0:s}() {1:d}", System.Reflection.MethodBase.GetCurrentMethod().Name, tSW.Elapsed.Ticks);
+        return tClass;
+    }
+
+
+    //Suprisingly quite fast
+    static public T TimedFindComponentByTag<T>(string vTag) where T : Component
+    {
+        System.Diagnostics.Stopwatch tSW = new System.Diagnostics.Stopwatch();  //Time how long it takes to find Item
+        tSW.Start();
+        GameObject tGO = GameObject.FindWithTag(vTag);       //Search for GM by tag;
+        T tComponent = default(T);
+        if (tGO)
+        {
+            tComponent = tGO.GetComponent<T>();
+        }
+        tSW.Stop();
+        Debug.LogFormat("{0:s}() {1:d}", System.Reflection.MethodBase.GetCurrentMethod().Name, tSW.Elapsed.Ticks);
+        return tComponent;
+    }
 }

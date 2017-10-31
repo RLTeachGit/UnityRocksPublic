@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 //Abstract Base class for all asteroids
 abstract public class AsteroidBase : Entity {
 
@@ -44,7 +43,9 @@ abstract public class AsteroidBase : Entity {
 																//default is to explode and self destruct Asteriod & bullet
 		Explode ();				//Explode this Asteroid
 		vBullet.Kill ();		//Tell Bullet to destroy itself
-		GM.sGM.AddScore(Score);		//Give correct score for hit, depending on Asteroid type
+		GM.sGM.AddScore(Score);     //Give correct score for hit, depending on Asteroid type
+       //        Utilities.TimedFindComponentByTag<GM>("GameManager");
+        Utilities.TimedFindComponentByType<GM>();
 	}
 
 	protected virtual void HitByPlayer(PlayerShip vPlayer) {		//This can be overridden by more specific behaviour
@@ -63,4 +64,6 @@ abstract public class AsteroidBase : Entity {
 		AsteroidCount--;
 		GM.sGM.mUI.UpdateAsteroidCount (AsteroidCount);		//Show new count
 	}
+
+
 }

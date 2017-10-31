@@ -5,27 +5,33 @@ using UnityEngine;
 public class GM : MonoBehaviour {
 
 
-	public	GameObject[]	Asteroids;		//Linked in IDE, to 3 types of asteroids
-	public	GameObject		Explosion;
 
 
-	public	bool	GameOver=false;		//Global game over flag
+    #region SharedData
+    public GameObject[] Asteroids;      //Linked in IDE, to 3 types of asteroids
+    public GameObject Explosion;
 
-	public	static	GM	sGM;		//Creates a singleton, allowing static access to data and helper code
+    private int		mScore = 0;		//Global score
+	public	UI		mUI;        //Link to UI
+    public bool     GameOver = false;     //Global game over flag
 
-	private	int		mScore = 0;		//Global score
+    #endregion
 
-	public	UI		mUI;		//Link to UI
-
-	void Awake () {		//Runs before Start
-		if (sGM == null) {
-			sGM = this;		//First Time creation of Game Manager
+    //Handy for labeling sections of code
+    #region Singleton      
+    public static GM sGM;       //Allows access to singleton
+                                //Being static means yoiu can access without knowing instance
+    void Awake () {		        //Runs before Start
+		if (sGM == null) {      //Has it been set up before?
+			sGM = this;		    //No, its the first Time creation of Game Manager, so store our instance
+            DontDestroyOnLoad(gameObject);  //Persist, now it will survive scene reloads
 		} else if (sGM != this) { //If we get called again, then destroy new version and keep old one
-			Destroy (gameObject);
+			Destroy (gameObject);   //Kill any subsequent one
 		}
 	}
+    #endregion
 
-	public	float	ScreenWidth {	//Helper code, allows singleton to be used to get Width & Height
+    public	float	ScreenWidth {	//Helper code, allows singleton to be used to get Width & Height
 		get {
 			return	Camera.main.orthographicSize * Camera.main.aspect;
 		}

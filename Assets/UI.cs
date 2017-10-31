@@ -10,15 +10,20 @@ public class UI : MonoBehaviour {
 	public	Text	AsteroidCountText;		//Link in IDE
 
 	void Start () {
-		GM.sGM.mUI = GetComponent<UI> ();		//Link UI updater into Game Manager, once stored in GM can be accessed by all
+		GM.sGM.mUI = GetComponent<UI> ();		//Link UI updater into Game Manager
+                                                //once stored in GM can be accessed by all
+                                                GetComponent<Text>().text=
 	}
 
 	public	void	UpdateScore(int vScore) {		//Update on sceen score
-		ScoreText.text = string.Format ("Score {0:d}", vScore);
+        if (ScoreText) {     //UI may get destroyed before GameManager, so avoid null exception
+            ScoreText.text = string.Format("Score {0:d}", vScore);
+        }
 	}
 
 	public	void	UpdateAsteroidCount(int vCount) {		//Update on sceen Count
-		AsteroidCountText.text = string.Format ("Count {0:d}", vCount);
-	}
-
+        if(AsteroidCountText) {     //UI may get destroyed before GameManager, so avoid null exception
+            AsteroidCountText.text = string.Format("Count {0:d}", vCount);
+        }
+    }
 }
