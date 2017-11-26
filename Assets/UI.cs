@@ -12,7 +12,6 @@ public class UI : MonoBehaviour {
 	void Start () {
 		GM.sGM.mUI = GetComponent<UI> ();		//Link UI updater into Game Manager
                                                 //once stored in GM can be accessed by all
-                                                GetComponent<Text>().text=
 	}
 
 	public	void	UpdateScore(int vScore) {		//Update on sceen score
